@@ -2,6 +2,7 @@ import { FC, useEffect } from 'react';
 import { useAppSelector } from '../../redux/hooks/useAppSelector.ts';
 import { useAppDispatch } from '../../redux/hooks/useAppDispatch.ts';
 import { recipeSliceActions } from '../../redux/slices/recipeSlice.ts';
+import { Link } from 'react-router-dom';
 
 interface IProps {
     recipeId: string;
@@ -21,6 +22,7 @@ const RecipeCard: FC<IProps> = ({ recipeId }) => {
 
     return (
         <div>
+            <Link to={`/users/${recipe.userId}`}>Go to recipe's author</Link>
             <div>
                 {recipe.id}. {recipe.name}
             </div>
