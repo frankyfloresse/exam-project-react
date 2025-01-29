@@ -1,11 +1,9 @@
-import UserItem from '../components/user-item/UserItem.tsx';
+import UserCard from '../components/user-card/UserCard.tsx';
+import { useParams } from 'react-router-dom';
 
 const UserPage = () => {
-    return (
-        <div>
-            <UserItem />
-        </div>
-    );
+    const { userId } = useParams();
+    return <div>{userId && <UserCard userId={userId} />}</div>;
 };
 
 export default UserPage;

@@ -8,7 +8,7 @@ export const axiosInstance = axios.create({
 });
 
 axiosInstance.interceptors.request.use((request) => {
-    request.headers.set('');
+    // request.headers.set('');
     return request;
 });
 

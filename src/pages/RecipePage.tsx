@@ -1,11 +1,9 @@
-import RecipeItem from '../components/recipe-item/RecipeItem.tsx';
+import RecipeCard from '../components/recipe-card/RecipeCard.tsx';
+import { useParams } from 'react-router-dom';
 
 const RecipePage = () => {
-    return (
-        <div>
-            <RecipeItem />
-        </div>
-    );
+    const { recipeId } = useParams();
+    return <div>{recipeId && <RecipeCard recipeId={recipeId} />}</div>;
 };
 
 export default RecipePage;
