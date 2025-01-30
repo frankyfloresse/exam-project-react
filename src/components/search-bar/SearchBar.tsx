@@ -1,11 +1,13 @@
 import { useForm } from 'react-hook-form';
-import { SearchSchema, searchSchema } from '../../validators/search.validator.ts';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { FC } from 'react';
 
 interface IProps {
-    onTextSearch: (text: string) => void;
-    onIdSearch: (id: string) => void;
+    onTextSearch?: (text: string) => void;
+    onIdSearch?: (id: string) => void;
+}
+
+interface IForm {
+    search: string;
 }
 
 const SearchBar: FC<IProps> = ({ onTextSearch, onIdSearch }) => {
@@ -13,15 +15,13 @@ const SearchBar: FC<IProps> = ({ onTextSearch, onIdSearch }) => {
         handleSubmit,
         register,
         formState: { errors },
-    } = useForm<SearchSchema>({
-        resolver: zodResolver(searchSchema),
-    });
+    } = useForm<IForm>();
 
-    const onSubmit = ({ search }: SearchSchema) => {
+    const onSubmit = ({ search }: IForm) => {
         if (/^\d+$/.test(search)) {
-            onIdSearch(search);
+            onIdSearch?.(search);
         } else {
-            onTextSearch(search);
+            onTextSearch?.(search);
         }
     };
 

@@ -8,6 +8,7 @@ type UsersSliceType = {
     limit: number;
     skip: number;
     total: number;
+    searchText: string;
 };
 
 const initialState: UsersSliceType = {
@@ -15,14 +16,15 @@ const initialState: UsersSliceType = {
     limit: 30,
     skip: 0,
     total: 0,
+    searchText: '',
 };
 
 const loadUsers = createAsyncThunk('usersSlice/loadUsers', async (_, thunkAPI) => {
     try {
         const state = thunkAPI.getState() as { usersSlice: UsersSliceType };
-        const { limit, skip } = state.usersSlice;
+        const { limit, skip, searchText } = state.usersSlice;
 
-        const users = await getAllUsers({ limit, skip });
+        const users = await getAllUsers(searchText, { limit, skip });
         return thunkAPI.fulfillWithValue(users);
     } catch (error) {
         return thunkAPI.rejectWithValue(error);
@@ -35,6 +37,10 @@ export const usersSlice = createSlice({
     reducers: {
         setSkip: (state, action: PayloadAction<number>) => {
             state.skip = action.payload;
+        },
+        setSearchText: (state, action: PayloadAction<string>) => {
+            state.searchText = action.payload;
+            state.skip = 0;
         },
     },
     extraReducers: (builder) =>

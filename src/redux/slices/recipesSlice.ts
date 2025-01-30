@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IRecipe } from '../../types/IRecipe.ts';
-import { getAllRecipes } from '../../api/services/recipe.service.ts';
+import { getAllRecipes, getRecipesByTag } from '../../api/services/recipe.service.ts';
 import { IRecipesPaginated } from '../../types/IRecipesPaginated.ts';
 
 type RecipesSliceType = {
@@ -8,6 +8,8 @@ type RecipesSliceType = {
     limit: number;
     skip: number;
     total: number;
+    searchText: string;
+    tag: string;
 };
 
 const initialState: RecipesSliceType = {
@@ -15,15 +17,22 @@ const initialState: RecipesSliceType = {
     limit: 30,
     skip: 0,
     total: 0,
+    searchText: '',
+    tag: '',
 };
 
 const loadRecipes = createAsyncThunk('recipesSlice/loadRecipes', async (_, thunkAPI) => {
     try {
         const state = thunkAPI.getState() as { recipesSlice: RecipesSliceType };
-        const { limit, skip } = state.recipesSlice;
+        const { limit, skip, searchText, tag } = state.recipesSlice;
 
-        const recipes = await getAllRecipes({ limit, skip });
-        return thunkAPI.fulfillWithValue(recipes);
+        if (tag) {
+            const recipes = await getRecipesByTag(tag, { limit, skip });
+            return thunkAPI.fulfillWithValue(recipes);
+        } else {
+            const recipes = await getAllRecipes(searchText, { limit, skip });
+            return thunkAPI.fulfillWithValue(recipes);
+        }
     } catch (error) {
         return thunkAPI.rejectWithValue(error);
     }
@@ -35,6 +44,16 @@ export const recipesSlice = createSlice({
     reducers: {
         setSkip: (state, action: PayloadAction<number>) => {
             state.skip = action.payload;
+        },
+        setSearchText: (state, action: PayloadAction<string>) => {
+            state.searchText = action.payload;
+            state.skip = 0;
+            state.tag = '';
+        },
+        setTag: (state, action: PayloadAction<string>) => {
+            state.tag = action.payload;
+            state.searchText = '';
+            state.skip = 0;
         },
     },
     extraReducers: (builder) =>

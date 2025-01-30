@@ -3,17 +3,8 @@ import { IUsersPaginated } from '../../types/IUsersPaginated.ts';
 import { IUser } from '../../types/IUser.ts';
 import { IPaginationOptions } from '../../types/IPaginationOptions.ts';
 
-export const getAllUsers = async (params: IPaginationOptions): Promise<IUsersPaginated> => {
-    const { data } = await axiosInstance.get<IUsersPaginated>('/users', { params });
-    return data;
-};
-
-export const searchUsers = async (searchText: string): Promise<IUsersPaginated> => {
-    const { data } = await axiosInstance.get<IUsersPaginated>('/users/search', {
-        params: {
-            q: searchText,
-        },
-    });
+export const getAllUsers = async (q: string, params: IPaginationOptions): Promise<IUsersPaginated> => {
+    const { data } = await axiosInstance.get<IUsersPaginated>('/users/search', { params: { q, ...params } });
     return data;
 };
 

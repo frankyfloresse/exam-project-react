@@ -4,17 +4,26 @@ import { usersSliceActions } from '../../redux/slices/usersSlice.ts';
 import { useAppDispatch } from '../../redux/hooks/useAppDispatch.ts';
 import UsersListItem from '../users-list-item/UsersListItem.tsx';
 import Pagination from '../pagination/Pagination.tsx';
+import SearchBar from '../search-bar/SearchBar.tsx';
+import { useNavigate } from 'react-router-dom';
 
 const UsersList = () => {
-    const { users, skip, limit, total } = useAppSelector(({ usersSlice }) => usersSlice);
+    const navigate = useNavigate();
+    const { users, skip, limit, total, searchText } = useAppSelector(
+        ({ usersSlice }) => usersSlice
+    );
     const dispatch = useAppDispatch();
 
     useEffect(() => {
         dispatch(usersSliceActions.loadUsers());
-    }, [skip]);
+    }, [skip, searchText]);
 
     return (
         <div>
+            <SearchBar
+                onTextSearch={(text) => dispatch(usersSliceActions.setSearchText(text))}
+                onIdSearch={(userId) => navigate(`/users/${userId}`)}
+            />
             {users.map((user) => (
                 <UsersListItem key={user.id} user={user} />
             ))}
