@@ -1,9 +1,10 @@
 import { axiosInstance } from '../axiosInstance.ts';
 import { IRecipesPaginated } from '../../types/IRecipesPaginated.ts';
 import { IRecipe } from '../../types/IRecipe.ts';
+import { IPaginationOptions } from '../../types/IPaginationOptions.ts';
 
-export const getAllRecipes = async (): Promise<IRecipesPaginated> => {
-    const { data } = await axiosInstance.get<IRecipesPaginated>('/recipes');
+export const getAllRecipes = async (params: IPaginationOptions): Promise<IRecipesPaginated> => {
+    const { data } = await axiosInstance.get<IRecipesPaginated>('/recipes', { params });
     return data;
 };
 

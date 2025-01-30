@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { LoginSchema, schema } from '../../validators/login.validator.ts';
+import { LoginSchema, loginSchema } from '../../validators/login.validator.ts';
 
 const LoginForm = () => {
     const {
@@ -8,7 +8,7 @@ const LoginForm = () => {
         register,
         formState: { errors },
     } = useForm<LoginSchema>({
-        resolver: zodResolver(schema),
+        resolver: zodResolver(loginSchema),
     });
 
     const onSubmit = (formData: LoginSchema) => {
