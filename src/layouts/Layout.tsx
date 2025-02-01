@@ -6,7 +6,6 @@ const Layout = () => {
     return (
         <div>
             <Menu />
-            <hr />
             <Suspense fallback={<div>Page is loading...</div>}>
                 <Outlet />
             </Suspense>

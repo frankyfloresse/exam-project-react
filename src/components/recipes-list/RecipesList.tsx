@@ -6,6 +6,7 @@ import RecipesListItem from '../recipes-list-item/RecipesListItem.tsx';
 import Pagination from '../pagination/Pagination.tsx';
 import SearchBar from '../search-bar/SearchBar.tsx';
 import { useNavigate } from 'react-router-dom';
+import logo from '../../assets/icons/cross.svg';
 
 const RecipesList = () => {
     const navigate = useNavigate();
@@ -17,21 +18,30 @@ const RecipesList = () => {
     }, [skip, searchText, tag]);
 
     return (
-        <div>
+        <div className="flex flex-col items-center container mx-auto mt-5">
+            <h1 className="text-[28px] font-bold mb-3">Recipes</h1>
+
             {tag ? (
-                <div>
-                    <div>Selected tag: {tag}</div>
-                    <button onClick={() => dispatch(recipesSliceActions.setTag(''))}>X</button>
+                <div className="flex items-center gap-2 bg-blue-300/50 text-blue-700 rounded-full py-1 px-5">
+                    <div>Tag: {tag}</div>
+                    <button className="cursor-pointer mt-0.5" onClick={() => dispatch(recipesSliceActions.setTag(''))}>
+                        <img src={logo} alt="cross" className="size-2.5" />
+                    </button>
                 </div>
             ) : (
                 <SearchBar
                     onTextSearch={(text) => dispatch(recipesSliceActions.setSearchText(text))}
                     onIdSearch={(recipeId) => navigate(`/recipes/${recipeId}`)}
+                    placeholder={'Search recipes...'}
                 />
             )}
-            {recipes.map((recipe) => (
-                <RecipesListItem onTagSelect={(tag) => dispatch(recipesSliceActions.setTag(tag))} recipe={recipe} />
-            ))}
+
+            <div className="grid grid-cols-3 gap-6 w-full my-5">
+                {recipes.map((recipe) => (
+                    <RecipesListItem onTagSelect={(tag) => dispatch(recipesSliceActions.setTag(tag))} recipe={recipe} />
+                ))}
+            </div>
+
             <Pagination
                 skip={skip}
                 total={total}

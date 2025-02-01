@@ -11,22 +11,29 @@ const Pagination: FC<IProps> = ({ skip, total, limit, onSkipChange }) => {
     const currentPage = skip / limit;
     const totalPages = Math.ceil(total / limit);
 
+    const isCanPrev = currentPage > 0;
+    const isCanNext = currentPage < totalPages - 1;
+
     const onPrev = () => {
-        if (currentPage > 0) {
+        if (isCanPrev) {
             onSkipChange(skip - limit);
         }
     };
 
     const onNext = () => {
-        if (currentPage < totalPages - 1) {
+        if (isCanNext) {
             onSkipChange(skip + limit);
         }
     };
 
     return (
-        <div>
-            <button onClick={onPrev}>Prev</button>
-            <button onClick={onNext}>Next</button>
+        <div className="flex gap-8 my-5">
+            <button className="nav-button" disabled={!isCanPrev} onClick={onPrev}>
+                Previous
+            </button>
+            <button className="nav-button" disabled={!isCanNext} onClick={onNext}>
+                Next
+            </button>
         </div>
     );
 };

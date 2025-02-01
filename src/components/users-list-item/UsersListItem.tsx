@@ -8,13 +8,20 @@ interface IProps {
 
 const UsersListItem: FC<IProps> = ({ user }) => {
     return (
-        <div>
-            <div>
-                <Link to={`/users/${user.id}`}>
-                    {user.id}. {user.firstName} {user.lastName}
-                </Link>
+        <Link to={`/users/${user.id}`}>
+            <div className="bg-white shadow-lg rounded-[8px] p-6 flex gap-4 items-center">
+                <div className="shrink-0">
+                    <img className="w-15 h-15" src={user.image} alt="logo" />
+                </div>
+                <div>
+                    <h2 className="font-bold text-[20px]">
+                        {user.firstName} {user.lastName}
+                    </h2>
+                    <div className="text-gray-500 font-semibold">@{user.username}</div>
+                    <div className="text-gray-500">{user.email}</div>
+                </div>
             </div>
-        </div>
+        </Link>
     );
 };
 

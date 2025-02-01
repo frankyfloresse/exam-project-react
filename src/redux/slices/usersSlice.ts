@@ -13,7 +13,7 @@ type UsersSliceType = {
 
 const initialState: UsersSliceType = {
     users: [],
-    limit: 30,
+    limit: 12,
     skip: 0,
     total: 0,
     searchText: '',

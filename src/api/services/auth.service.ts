@@ -1,20 +1,21 @@
-// import { ITokens } from '../../types/ITokens.ts';
 import { IUserWithTokens } from '../../types/IUserWithTokens.ts';
 import { axiosInstance } from '../axiosInstance.ts';
-
-interface ILoginRequest {
-    username: string;
-    password: string;
-    expiresInMins: number;
-}
-
-// const saveTokens = (tokens: ITokens) => {
-//     localStorage.setItem('access_token', tokens.accessToken);
-//     localStorage.setItem('refresh_token', tokens.refreshToken);
-// };
+import { IUser } from '../../types/IUser.ts';
+import { ILoginRequest } from '../../types/ILoginRequest.ts';
+import { ITokens } from '../../types/ITokens.ts';
+import { IRefreshRequest } from '../../types/IRefreshRequest.ts';
 
 export const login = async (request: ILoginRequest): Promise<IUserWithTokens> => {
     const { data } = await axiosInstance.post<IUserWithTokens>('/auth/login', request);
-    // saveTokens(data);
+    return data;
+};
+
+export const getAuthUser = async (): Promise<IUser> => {
+    const { data } = await axiosInstance.get<IUser>('/auth/me');
+    return data;
+};
+
+export const refreshAuthToken = async (request: IRefreshRequest): Promise<ITokens> => {
+    const { data } = await axiosInstance.post<ITokens>('/auth/refresh', request);
     return data;
 };

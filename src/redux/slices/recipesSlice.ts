@@ -14,7 +14,7 @@ type RecipesSliceType = {
 
 const initialState: RecipesSliceType = {
     recipes: [],
-    limit: 30,
+    limit: 12,
     skip: 0,
     total: 0,
     searchText: '',
