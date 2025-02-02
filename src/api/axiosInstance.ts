@@ -25,7 +25,7 @@ axiosInstance.interceptors.response.use(
     (r) => r,
     async (error) => {
         const user = retrieveLocalStorage<IUserWithTokens>(AUTH_USER_KEY);
-        const status = error.response.status;
+        const status = error.status;
 
         // If user in storage and error is 401 - try refresh token
         if (user && status === 401) {

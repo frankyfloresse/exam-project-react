@@ -1,3 +1,6 @@
+import { IAddress } from './IAddress.ts';
+import { ICompany } from './ICompany.ts';
+
 export interface IUser {
     id: number;
     firstName: string;
@@ -16,35 +19,12 @@ export interface IUser {
     weight: number;
     eyeColor: string;
     ip: string;
-    address: Address;
+    address: IAddress;
     macAddress: string;
     university: string;
-    company: Company;
+    company: ICompany;
     ein: string;
     ssn: string;
     userAgent: string;
-    crypto: Crypto;
     role: string;
-}
-
-export interface Coordinates {
-    lat: number;
-    lng: number;
-}
-
-export interface Address {
-    address: string;
-    city: string;
-    state: string;
-    stateCode: string;
-    postalCode: string;
-    coordinates: Coordinates;
-    country: string;
-}
-
-export interface Company {
-    department: string;
-    name: string;
-    title: string;
-    address: Address;
 }

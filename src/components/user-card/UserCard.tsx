@@ -1,30 +1,8 @@
-import { FC, useEffect } from 'react';
 import { useAppSelector } from '../../redux/hooks/useAppSelector.ts';
-import { useAppDispatch } from '../../redux/hooks/useAppDispatch.ts';
-import { userSliceActions } from '../../redux/slices/userSlice.ts';
 import UserRecipesList from '../user-recipes-list/UserRecipesList.tsx';
-import SpinnerLoader from '../spinner-loader/SpinnerLoader.tsx';
 
-interface IProps {
-    userId: string;
-}
-
-const UserCard: FC<IProps> = ({ userId }) => {
-    const { user, recipes, isLoading, isRecipesLoading } = useAppSelector(({ userSlice }) => userSlice);
-    const dispatch = useAppDispatch();
-
-    useEffect(() => {
-        dispatch(userSliceActions.loadUser(userId));
-        dispatch(userSliceActions.loadUserRecipes(userId));
-
-        return () => {
-            dispatch(userSliceActions.resetState());
-        };
-    }, []);
-
-    if (isLoading || isRecipesLoading) {
-        return <SpinnerLoader />;
-    }
+const UserCard = () => {
+    const { user, recipes } = useAppSelector(({ userSlice }) => userSlice);
 
     if (!user) {
         return (

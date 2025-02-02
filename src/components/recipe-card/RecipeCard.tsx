@@ -1,30 +1,9 @@
-import { FC, useEffect } from 'react';
 import { useAppSelector } from '../../redux/hooks/useAppSelector.ts';
-import { useAppDispatch } from '../../redux/hooks/useAppDispatch.ts';
-import { recipeSliceActions } from '../../redux/slices/recipeSlice.ts';
 import { generatePath, Link } from 'react-router-dom';
 import { USER_ROUTE } from '../../routes/constants.ts';
-import SpinnerLoader from '../spinner-loader/SpinnerLoader.tsx';
 
-interface IProps {
-    recipeId: string;
-}
-
-const RecipeCard: FC<IProps> = ({ recipeId }) => {
-    const { recipe, isLoading } = useAppSelector(({ recipeSlice }) => recipeSlice);
-    const dispatch = useAppDispatch();
-
-    useEffect(() => {
-        dispatch(recipeSliceActions.loadRecipe(recipeId));
-
-        return () => {
-            dispatch(recipeSliceActions.resetState());
-        };
-    }, []);
-
-    if (isLoading) {
-        return <SpinnerLoader />;
-    }
+const RecipeCard = () => {
+    const { recipe } = useAppSelector(({ recipeSlice }) => recipeSlice);
 
     if (!recipe) {
         return (

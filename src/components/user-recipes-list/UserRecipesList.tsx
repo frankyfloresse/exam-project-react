@@ -18,7 +18,7 @@ const UserRecipesList: FC<IProps> = ({ recipes }) => {
                     <Link
                         to={generatePath(RECIPE_ROUTE, { recipeId: String(recipe.id) })}
                         key={recipe.id}
-                        className="flex justify-between items-start p-4 border border-gray-200 rounded-lg">
+                        className="flex justify-between items-start p-4 border border-gray-200 rounded-lg hover:shadow-lg">
                         <div>
                             <div className="text-xl font-semibold">{recipe.name}</div>
                             <div className="text-gray-600 mt-2">Cook time: {recipe.cookTimeMinutes}</div>
