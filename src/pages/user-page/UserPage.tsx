@@ -1,4 +1,4 @@
-import UserCard from '../components/user-card/UserCard.tsx';
+import UserCard from '../../components/user-card/UserCard.tsx';
 import { useParams } from 'react-router-dom';
 
 const UserPage = () => {

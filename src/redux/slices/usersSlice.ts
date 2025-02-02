@@ -56,9 +56,7 @@ export const usersSlice = createSlice({
                 state.total = action.payload.total;
                 state.isLoading = false;
             })
-            .addCase(loadUsers.rejected, (state, action) => {
-                console.log(state);
-                console.log(action);
+            .addCase(loadUsers.rejected, (state) => {
                 state.isLoading = false;
             }),
 });

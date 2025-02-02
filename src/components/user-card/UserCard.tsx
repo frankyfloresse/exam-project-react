@@ -3,13 +3,14 @@ import { useAppSelector } from '../../redux/hooks/useAppSelector.ts';
 import { useAppDispatch } from '../../redux/hooks/useAppDispatch.ts';
 import { userSliceActions } from '../../redux/slices/userSlice.ts';
 import UserRecipesList from '../user-recipes-list/UserRecipesList.tsx';
+import SpinnerLoader from '../spinner-loader/SpinnerLoader.tsx';
 
 interface IProps {
     userId: string;
 }
 
 const UserCard: FC<IProps> = ({ userId }) => {
-    const { user, recipes } = useAppSelector(({ userSlice }) => userSlice);
+    const { user, recipes, isLoading, isRecipesLoading } = useAppSelector(({ userSlice }) => userSlice);
     const dispatch = useAppDispatch();
 
     useEffect(() => {
@@ -21,8 +22,16 @@ const UserCard: FC<IProps> = ({ userId }) => {
         };
     }, []);
 
+    if (isLoading || isRecipesLoading) {
+        return <SpinnerLoader />;
+    }
+
     if (!user) {
-        return <div>Loading...</div>;
+        return (
+            <div className="full-height flex flex-col items-center justify-center text-2xl font-bold">
+                User not found
+            </div>
+        );
     }
 
     return (

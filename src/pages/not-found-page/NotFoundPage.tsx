@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
-import susCat from '../assets/images/sus-cat.png';
-import { BASE_ROUTE } from '../routes/constants.ts';
+import susCat from '../../assets/images/sus-cat.png';
+import { BASE_ROUTE } from '../../routes/constants.ts';
 
 const NotFoundPage = () => {
     return (

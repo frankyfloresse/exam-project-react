@@ -4,10 +4,12 @@ import { getRecipe } from '../../api/services/recipe.service.ts';
 
 type RecipeSliceType = {
     recipe: IRecipe | null;
+    isLoading: boolean;
 };
 
 const initialState: RecipeSliceType = {
     recipe: null,
+    isLoading: false,
 };
 
 const loadRecipe = createAsyncThunk('recipeSlice/loadRecipe', async (id: string, thunkAPI) => {
@@ -29,12 +31,15 @@ export const recipeSlice = createSlice({
     },
     extraReducers: (builder) =>
         builder
+            .addCase(loadRecipe.pending, (state) => {
+                state.isLoading = true;
+            })
             .addCase(loadRecipe.fulfilled, (state, action: PayloadAction<IRecipe>) => {
                 state.recipe = action.payload;
+                state.isLoading = false;
             })
-            .addCase(loadRecipe.rejected, (state, action) => {
-                console.log(state);
-                console.log(action);
+            .addCase(loadRecipe.rejected, (state) => {
+                state.isLoading = false;
             }),
 });
 

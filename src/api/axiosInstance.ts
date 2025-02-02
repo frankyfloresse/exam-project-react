@@ -25,9 +25,10 @@ axiosInstance.interceptors.response.use(
     (r) => r,
     async (error) => {
         const user = retrieveLocalStorage<IUserWithTokens>(AUTH_USER_KEY);
+        const status = error.response.status;
 
         // If user in storage and error is 401 - try refresh token
-        if (user && error.status === 401) {
+        if (user && status === 401) {
             try {
                 // Try get new tokens
                 const { accessToken, refreshToken } = await refreshAuthToken({
@@ -47,19 +48,10 @@ axiosInstance.interceptors.response.use(
                 localStorage.removeItem(AUTH_USER_KEY);
                 location.href = '/';
             }
-        } else if (error.status === 401) {
+        } else if (status === 401) {
             location.href = '/';
         }
 
         return Promise.reject(error);
-    }
-);
-
-axiosInstance.interceptors.response.use(
-    (response) => response,
-    (error) => {
-        if (error.message) {
-            console.log(error.message);
-        }
     }
 );

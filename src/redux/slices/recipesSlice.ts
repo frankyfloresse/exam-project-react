@@ -69,9 +69,7 @@ export const recipesSlice = createSlice({
                 state.total = action.payload.total;
                 state.isLoading = false;
             })
-            .addCase(loadRecipes.rejected, (state, action) => {
-                console.log(state);
-                console.log(action);
+            .addCase(loadRecipes.rejected, (state) => {
                 state.isLoading = false;
             }),
 });

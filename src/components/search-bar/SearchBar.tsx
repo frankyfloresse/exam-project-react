@@ -5,18 +5,23 @@ interface IProps {
     onTextSearch?: (text: string) => void;
     onIdSearch?: (id: string) => void;
     placeholder: string;
+    initialSearch?: string;
 }
 
 interface IForm {
     search: string;
 }
 
-const SearchBar: FC<IProps> = ({ onTextSearch, onIdSearch, placeholder }) => {
+const SearchBar: FC<IProps> = ({ onTextSearch, onIdSearch, placeholder, initialSearch }) => {
     const {
         handleSubmit,
         register,
         formState: { errors },
-    } = useForm<IForm>();
+    } = useForm<IForm>({
+        defaultValues: {
+            search: initialSearch,
+        },
+    });
 
     const onSubmit = ({ search }: IForm) => {
         if (/^\d+$/.test(search)) {

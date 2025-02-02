@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { TOKEN_LIFETIME } from '../../constants/tokenLifetime.ts';
 import { BASE_ROUTE } from '../../routes/constants.ts';
+import SpinnerLoader from '../spinner-loader/SpinnerLoader.tsx';
 
 const LoginForm = () => {
     const {
@@ -19,7 +20,7 @@ const LoginForm = () => {
     });
 
     const dispatch = useAppDispatch();
-    const { authUser } = useAppSelector(({ authSlice }) => authSlice);
+    const { authUser, isLoading, error } = useAppSelector(({ authSlice }) => authSlice);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -31,6 +32,10 @@ const LoginForm = () => {
     const onSubmit = (formData: LoginSchema) => {
         dispatch(authSliceActions.authLogin({ ...formData, expiresInMins: TOKEN_LIFETIME }));
     };
+
+    if (isLoading) {
+        return <SpinnerLoader />;
+    }
 
     return (
         <div className="flex items-center justify-center min-h-screen full-height py-10">
@@ -66,6 +71,8 @@ const LoginForm = () => {
                         />
                         {errors.password?.message && <p className="text-red-500 text-xs">{errors.password?.message}</p>}
                     </div>
+
+                    {error && <div className="text-red-500 text-xs mt-3 text-center">{error}</div>}
 
                     <button className="bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 w-full rounded-[7px] mt-6">
                         Login

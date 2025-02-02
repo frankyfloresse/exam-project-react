@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useAppSelector } from '../../redux/hooks/useAppSelector.ts';
 import { RECIPES_ROUTE, USERS_ROUTE } from '../../routes/constants.ts';
+import ArrowButton from '../arrow-button/ArrowButton.tsx';
 
 const HomeGreetingUser = () => {
     const { authUser } = useAppSelector(({ authSlice }) => authSlice);
@@ -13,15 +14,11 @@ const HomeGreetingUser = () => {
                 you like to explore today?
             </p>
             <div className="flex justify-center gap-6">
-                <Link
-                    to={RECIPES_ROUTE}
-                    className="py-3 px-4.5 rounded-[6px] bg-indigo-600 hover:bg-indigo-700 text-white">
-                    Browse Recipes
+                <Link to={RECIPES_ROUTE}>
+                    <ArrowButton text={'View Recipes'} />
                 </Link>
-                <Link
-                    to={USERS_ROUTE}
-                    className="py-3 px-4.5 rounded-[6px] bg-emerald-600 hover:bg-emerald-700 text-white">
-                    View Users
+                <Link to={USERS_ROUTE}>
+                    <ArrowButton text={'View Users'} />
                 </Link>
             </div>
         </div>

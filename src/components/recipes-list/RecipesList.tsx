@@ -8,15 +8,22 @@ import SearchBar from '../search-bar/SearchBar.tsx';
 import { generatePath, useNavigate } from 'react-router-dom';
 import logo from '../../assets/icons/cross.svg';
 import { RECIPE_ROUTE } from '../../routes/constants.ts';
+import SpinnerLoader from '../spinner-loader/SpinnerLoader.tsx';
 
 const RecipesList = () => {
     const navigate = useNavigate();
-    const { recipes, skip, limit, total, searchText, tag } = useAppSelector(({ recipesSlice }) => recipesSlice);
+    const { recipes, skip, limit, total, searchText, tag, isLoading } = useAppSelector(
+        ({ recipesSlice }) => recipesSlice
+    );
     const dispatch = useAppDispatch();
 
     useEffect(() => {
         dispatch(recipesSliceActions.loadRecipes());
     }, [skip, searchText, tag]);
+
+    if (isLoading) {
+        return <SpinnerLoader />;
+    }
 
     return (
         <div className="flex flex-col items-center container mx-auto mt-5">
@@ -34,10 +41,11 @@ const RecipesList = () => {
                     onTextSearch={(text) => dispatch(recipesSliceActions.setSearchText(text))}
                     onIdSearch={(recipeId) => navigate(generatePath(RECIPE_ROUTE, { recipeId }))}
                     placeholder={'Search recipes...'}
+                    initialSearch={searchText}
                 />
             )}
 
-            <div className="grid grid-cols-3 gap-6 w-full my-5">
+            <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6 w-full my-5">
                 {recipes.map((recipe) => (
                     <RecipesListItem onTagSelect={(tag) => dispatch(recipesSliceActions.setTag(tag))} recipe={recipe} />
                 ))}

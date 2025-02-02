@@ -4,13 +4,18 @@ import { login } from '../../api/services/auth.service.ts';
 import { IUserWithTokens } from '../../types/IUserWithTokens.ts';
 import { retrieveLocalStorage } from '../../utils/retrieveLocalStorage.ts';
 import { AUTH_USER_KEY } from '../../constants/localStorageKeys.ts';
+import { isAxiosError } from 'axios';
 
 interface AuthSliceType {
     authUser: IUserWithTokens | null;
+    isLoading: boolean;
+    error?: string;
 }
 
 const initialState: AuthSliceType = {
     authUser: retrieveLocalStorage<IUserWithTokens>(AUTH_USER_KEY),
+    isLoading: false,
+    error: '',
 };
 
 const authLogin = createAsyncThunk('authSlice/authLogin', async (request: ILoginRequest, thunkAPI) => {
@@ -29,12 +34,21 @@ export const authSlice = createSlice({
     reducers: {},
     extraReducers: (builder) =>
         builder
+            .addCase(authLogin.pending, (state) => {
+                state.isLoading = true;
+                state.error = '';
+            })
             .addCase(authLogin.fulfilled, (state, action: PayloadAction<IUserWithTokens>) => {
                 state.authUser = action.payload;
+                state.isLoading = false;
             })
             .addCase(authLogin.rejected, (state, action) => {
-                console.log(state);
-                console.log(action);
+                state.isLoading = false;
+
+                const error = action.payload;
+                if (isAxiosError(error)) {
+                    state.error = error.response?.data?.message || 'Server Error';
+                }
             }),
 });
 

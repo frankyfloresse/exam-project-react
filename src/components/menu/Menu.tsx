@@ -1,7 +1,7 @@
-import { Link } from 'react-router-dom';
+import { generatePath, Link } from 'react-router-dom';
 import { useAppSelector } from '../../redux/hooks/useAppSelector.ts';
 import { AUTH_USER_KEY } from '../../constants/localStorageKeys.ts';
-import { BASE_ROUTE, LOGIN_ROUTE, RECIPES_ROUTE, USERS_ROUTE } from '../../routes/constants.ts';
+import { BASE_ROUTE, LOGIN_ROUTE, RECIPES_ROUTE, USER_ROUTE, USERS_ROUTE } from '../../routes/constants.ts';
 
 const Menu = () => {
     const { authUser } = useAppSelector(({ authSlice }) => authSlice);
@@ -30,13 +30,17 @@ const Menu = () => {
                                 Users
                             </Link>
                         </li>
-                        <li className="flex items-center space-x-2">
-                            <img
-                                src={authUser.image}
-                                alt="logo"
-                                className="w-8 h-8 rounded-full border-2 border-indigo-600"
-                            />
-                            <span className="text-gray-700">{authUser.username}</span>
+                        <li>
+                            <Link
+                                className="flex items-center space-x-2"
+                                to={generatePath(USER_ROUTE, { userId: String(authUser.id) })}>
+                                <img
+                                    src={authUser.image}
+                                    alt="logo"
+                                    className="w-8 h-8 rounded-full border-2 border-indigo-600"
+                                />
+                                <span className="text-gray-700">{authUser.username}</span>
+                            </Link>
                         </li>
                         <li>
                             <button

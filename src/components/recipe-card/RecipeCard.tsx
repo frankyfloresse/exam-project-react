@@ -4,13 +4,14 @@ import { useAppDispatch } from '../../redux/hooks/useAppDispatch.ts';
 import { recipeSliceActions } from '../../redux/slices/recipeSlice.ts';
 import { generatePath, Link } from 'react-router-dom';
 import { USER_ROUTE } from '../../routes/constants.ts';
+import SpinnerLoader from '../spinner-loader/SpinnerLoader.tsx';
 
 interface IProps {
     recipeId: string;
 }
 
 const RecipeCard: FC<IProps> = ({ recipeId }) => {
-    const { recipe } = useAppSelector(({ recipeSlice }) => recipeSlice);
+    const { recipe, isLoading } = useAppSelector(({ recipeSlice }) => recipeSlice);
     const dispatch = useAppDispatch();
 
     useEffect(() => {
@@ -21,8 +22,16 @@ const RecipeCard: FC<IProps> = ({ recipeId }) => {
         };
     }, []);
 
+    if (isLoading) {
+        return <SpinnerLoader />;
+    }
+
     if (!recipe) {
-        return <div>Loading...</div>;
+        return (
+            <div className="full-height flex flex-col items-center justify-center text-2xl font-bold">
+                Recipe not found
+            </div>
+        );
     }
 
     return (
