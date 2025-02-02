@@ -2,7 +2,8 @@ import { FC, useEffect } from 'react';
 import { useAppSelector } from '../../redux/hooks/useAppSelector.ts';
 import { useAppDispatch } from '../../redux/hooks/useAppDispatch.ts';
 import { recipeSliceActions } from '../../redux/slices/recipeSlice.ts';
-import { Link } from 'react-router-dom';
+import { generatePath, Link } from 'react-router-dom';
+import { USER_ROUTE } from '../../routes/constants.ts';
 
 interface IProps {
     recipeId: string;
@@ -14,6 +15,10 @@ const RecipeCard: FC<IProps> = ({ recipeId }) => {
 
     useEffect(() => {
         dispatch(recipeSliceActions.loadRecipe(recipeId));
+
+        return () => {
+            dispatch(recipeSliceActions.resetState());
+        };
     }, []);
 
     if (!recipe) {
@@ -26,7 +31,9 @@ const RecipeCard: FC<IProps> = ({ recipeId }) => {
                 <div>
                     <div className="flex justify-between items-center">
                         <h2 className="text-[25px] font-bold">{recipe.name}</h2>
-                        <Link to={`/users/${recipe.userId}`} className="text-blue-500 hover:underline">
+                        <Link
+                            to={generatePath(USER_ROUTE, { userId: String(recipe.userId) })}
+                            className="text-blue-500 hover:underline">
                             Go to recipe's author
                         </Link>
                     </div>

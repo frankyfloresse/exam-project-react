@@ -9,9 +9,11 @@ type UsersSliceType = {
     skip: number;
     total: number;
     searchText: string;
+    isLoading: boolean;
 };
 
 const initialState: UsersSliceType = {
+    isLoading: false,
     users: [],
     limit: 12,
     skip: 0,
@@ -45,14 +47,19 @@ export const usersSlice = createSlice({
     },
     extraReducers: (builder) =>
         builder
+            .addCase(loadUsers.pending, (state) => {
+                state.isLoading = true;
+            })
             .addCase(loadUsers.fulfilled, (state, action: PayloadAction<IUsersPaginated>) => {
                 state.users = action.payload.users;
                 state.skip = action.payload.skip;
                 state.total = action.payload.total;
+                state.isLoading = false;
             })
             .addCase(loadUsers.rejected, (state, action) => {
                 console.log(state);
                 console.log(action);
+                state.isLoading = false;
             }),
 });
 

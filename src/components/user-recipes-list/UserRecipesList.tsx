@@ -1,7 +1,8 @@
 import { FC } from 'react';
 import { IRecipe } from '../../types/IRecipe.ts';
 import arrowRightIcon from '../../assets/icons/arrow-right.svg';
-import { Link } from 'react-router-dom';
+import { generatePath, Link } from 'react-router-dom';
+import { RECIPE_ROUTE } from '../../routes/constants.ts';
 
 interface IProps {
     recipes: IRecipe[];
@@ -15,7 +16,7 @@ const UserRecipesList: FC<IProps> = ({ recipes }) => {
             <div className="space-y-4">
                 {recipes.map((recipe) => (
                     <Link
-                        to={`/recipes/${recipe.id}`}
+                        to={generatePath(RECIPE_ROUTE, { recipeId: String(recipe.id) })}
                         key={recipe.id}
                         className="flex justify-between items-start p-4 border border-gray-200 rounded-lg">
                         <div>

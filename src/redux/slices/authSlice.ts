@@ -3,19 +3,20 @@ import { ILoginRequest } from '../../types/ILoginRequest.ts';
 import { login } from '../../api/services/auth.service.ts';
 import { IUserWithTokens } from '../../types/IUserWithTokens.ts';
 import { retrieveLocalStorage } from '../../utils/retrieveLocalStorage.ts';
+import { AUTH_USER_KEY } from '../../constants/localStorageKeys.ts';
 
 interface AuthSliceType {
     authUser: IUserWithTokens | null;
 }
 
 const initialState: AuthSliceType = {
-    authUser: retrieveLocalStorage<IUserWithTokens>('user'),
+    authUser: retrieveLocalStorage<IUserWithTokens>(AUTH_USER_KEY),
 };
 
 const authLogin = createAsyncThunk('authSlice/authLogin', async (request: ILoginRequest, thunkAPI) => {
     try {
         const userWithTokens = await login(request);
-        localStorage.setItem('user', JSON.stringify(userWithTokens));
+        localStorage.setItem(AUTH_USER_KEY, JSON.stringify(userWithTokens));
         return thunkAPI.fulfillWithValue(userWithTokens);
     } catch (error) {
         return thunkAPI.rejectWithValue(error);

@@ -1,17 +1,19 @@
 import { Link } from 'react-router-dom';
 import { useAppSelector } from '../../redux/hooks/useAppSelector.ts';
+import { AUTH_USER_KEY } from '../../constants/localStorageKeys.ts';
+import { BASE_ROUTE, LOGIN_ROUTE, RECIPES_ROUTE, USERS_ROUTE } from '../../routes/constants.ts';
 
 const Menu = () => {
     const { authUser } = useAppSelector(({ authSlice }) => authSlice);
 
     const logout = () => {
-        localStorage.removeItem('user');
+        localStorage.removeItem(AUTH_USER_KEY);
         location.href = '/';
     };
 
     return (
         <nav className="flex items-center justify-between px-15 py-4 shadow-md bg-white">
-            <Link to={'/'} className="text-lg font-bold text-indigo-600">
+            <Link to={BASE_ROUTE} className="text-lg font-bold text-indigo-600">
                 Recipe App
             </Link>
 
@@ -19,12 +21,12 @@ const Menu = () => {
                 {authUser ? (
                     <>
                         <li>
-                            <Link to={'/recipes'} className="text-gray-700 hover:text-indigo-600">
+                            <Link to={RECIPES_ROUTE} className="text-gray-700 hover:text-indigo-600">
                                 Recipes
                             </Link>
                         </li>
                         <li>
-                            <Link to={'/users'} className="text-gray-700 hover:text-indigo-600">
+                            <Link to={USERS_ROUTE} className="text-gray-700 hover:text-indigo-600">
                                 Users
                             </Link>
                         </li>
@@ -47,7 +49,7 @@ const Menu = () => {
                 ) : (
                     <li>
                         <Link
-                            to={'/login'}
+                            to={LOGIN_ROUTE}
                             className="py-2 px-4.5 rounded-[6px] bg-indigo-600 hover:bg-indigo-700 text-white">
                             Login
                         </Link>

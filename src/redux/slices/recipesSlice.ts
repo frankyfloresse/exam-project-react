@@ -10,6 +10,7 @@ type RecipesSliceType = {
     total: number;
     searchText: string;
     tag: string;
+    isLoading: boolean;
 };
 
 const initialState: RecipesSliceType = {
@@ -19,6 +20,7 @@ const initialState: RecipesSliceType = {
     total: 0,
     searchText: '',
     tag: '',
+    isLoading: false,
 };
 
 const loadRecipes = createAsyncThunk('recipesSlice/loadRecipes', async (_, thunkAPI) => {
@@ -58,14 +60,19 @@ export const recipesSlice = createSlice({
     },
     extraReducers: (builder) =>
         builder
+            .addCase(loadRecipes.pending, (state) => {
+                state.isLoading = true;
+            })
             .addCase(loadRecipes.fulfilled, (state, action: PayloadAction<IRecipesPaginated>) => {
                 state.recipes = action.payload.recipes;
                 state.skip = action.payload.skip;
                 state.total = action.payload.total;
+                state.isLoading = false;
             })
             .addCase(loadRecipes.rejected, (state, action) => {
                 console.log(state);
                 console.log(action);
+                state.isLoading = false;
             }),
 });
 

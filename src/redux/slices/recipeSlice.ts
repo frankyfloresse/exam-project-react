@@ -22,7 +22,11 @@ const loadRecipe = createAsyncThunk('recipeSlice/loadRecipe', async (id: string,
 export const recipeSlice = createSlice({
     name: 'recipeSlice',
     initialState: initialState,
-    reducers: {},
+    reducers: {
+        resetState: (state) => {
+            Object.assign(state, initialState);
+        },
+    },
     extraReducers: (builder) =>
         builder
             .addCase(loadRecipe.fulfilled, (state, action: PayloadAction<IRecipe>) => {

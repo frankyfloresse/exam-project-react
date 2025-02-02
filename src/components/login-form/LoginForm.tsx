@@ -6,6 +6,8 @@ import { authSliceActions } from '../../redux/slices/authSlice.ts';
 import { useAppSelector } from '../../redux/hooks/useAppSelector.ts';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
+import { TOKEN_LIFETIME } from '../../constants/tokenLifetime.ts';
+import { BASE_ROUTE } from '../../routes/constants.ts';
 
 const LoginForm = () => {
     const {
@@ -22,12 +24,12 @@ const LoginForm = () => {
 
     useEffect(() => {
         if (authUser) {
-            navigate('/');
+            navigate(BASE_ROUTE);
         }
     }, [authUser]);
 
     const onSubmit = (formData: LoginSchema) => {
-        dispatch(authSliceActions.authLogin({ ...formData, expiresInMins: 1 }));
+        dispatch(authSliceActions.authLogin({ ...formData, expiresInMins: TOKEN_LIFETIME }));
     };
 
     return (

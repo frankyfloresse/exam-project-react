@@ -1,6 +1,7 @@
 import { IUser } from '../../types/IUser.ts';
 import { FC } from 'react';
-import { Link } from 'react-router-dom';
+import { generatePath, Link } from 'react-router-dom';
+import { USER_ROUTE } from '../../routes/constants.ts';
 
 interface IProps {
     user: IUser;
@@ -8,7 +9,7 @@ interface IProps {
 
 const UsersListItem: FC<IProps> = ({ user }) => {
     return (
-        <Link to={`/users/${user.id}`}>
+        <Link to={generatePath(USER_ROUTE, { userId: String(user.id) })}>
             <div className="bg-white shadow-lg rounded-[8px] p-6 flex gap-4 items-center">
                 <div className="shrink-0">
                     <img className="w-15 h-15" src={user.image} alt="logo" />

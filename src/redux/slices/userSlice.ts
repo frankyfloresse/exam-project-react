@@ -23,8 +23,10 @@ const loadUser = createAsyncThunk('userSlice/loadUser', async (id: string, thunk
     }
 });
 
+// Due to dummyjson doesn't have api for getting recipes by user id we are using this workaround
 const loadUserRecipes = createAsyncThunk('userSlice/loadUserRecipes', async (id: string, thunkAPI) => {
     try {
+        // limit: 0 allows load all recipes in one page
         const { recipes } = await getAllRecipes('', { skip: 0, limit: 0 });
         const userRecipes = recipes.filter((recipe) => recipe.userId === Number(id));
         return thunkAPI.fulfillWithValue(userRecipes);
@@ -36,7 +38,11 @@ const loadUserRecipes = createAsyncThunk('userSlice/loadUserRecipes', async (id:
 export const userSlice = createSlice({
     name: 'userSlice',
     initialState: initialState,
-    reducers: {},
+    reducers: {
+        resetState: (state) => {
+            Object.assign(state, initialState);
+        },
+    },
     extraReducers: (builder) =>
         builder
             .addCase(loadUser.fulfilled, (state, action: PayloadAction<IUser>) => {

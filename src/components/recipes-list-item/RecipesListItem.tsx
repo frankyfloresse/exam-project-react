@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { IRecipe } from '../../types/IRecipe.ts';
-import { Link } from 'react-router-dom';
+import { generatePath, Link } from 'react-router-dom';
+import { RECIPE_ROUTE } from '../../routes/constants.ts';
 
 interface IProps {
     recipe: IRecipe;
@@ -9,7 +10,7 @@ interface IProps {
 
 const RecipesListItem: FC<IProps> = ({ recipe, onTagSelect }) => {
     return (
-        <Link to={`/recipes/${recipe.id}`}>
+        <Link to={generatePath(RECIPE_ROUTE, { recipeId: String(recipe.id) })}>
             <div className="bg-white shadow-lg rounded-[8px] p-6 gap-4 flex items-start flex-col h-full">
                 <h2 className="text-[20px] font-bold">{recipe.name}</h2>
 

@@ -5,8 +5,9 @@ import { recipesSliceActions } from '../../redux/slices/recipesSlice.ts';
 import RecipesListItem from '../recipes-list-item/RecipesListItem.tsx';
 import Pagination from '../pagination/Pagination.tsx';
 import SearchBar from '../search-bar/SearchBar.tsx';
-import { useNavigate } from 'react-router-dom';
+import { generatePath, useNavigate } from 'react-router-dom';
 import logo from '../../assets/icons/cross.svg';
+import { RECIPE_ROUTE } from '../../routes/constants.ts';
 
 const RecipesList = () => {
     const navigate = useNavigate();
@@ -31,7 +32,7 @@ const RecipesList = () => {
             ) : (
                 <SearchBar
                     onTextSearch={(text) => dispatch(recipesSliceActions.setSearchText(text))}
-                    onIdSearch={(recipeId) => navigate(`/recipes/${recipeId}`)}
+                    onIdSearch={(recipeId) => navigate(generatePath(RECIPE_ROUTE, { recipeId }))}
                     placeholder={'Search recipes...'}
                 />
             )}

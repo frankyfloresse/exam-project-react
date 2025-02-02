@@ -15,6 +15,10 @@ const UserCard: FC<IProps> = ({ userId }) => {
     useEffect(() => {
         dispatch(userSliceActions.loadUser(userId));
         dispatch(userSliceActions.loadUserRecipes(userId));
+
+        return () => {
+            dispatch(userSliceActions.resetState());
+        };
     }, []);
 
     if (!user) {

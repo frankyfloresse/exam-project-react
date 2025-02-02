@@ -27,10 +27,11 @@ const Pagination: FC<IProps> = ({ skip, total, limit, onSkipChange }) => {
     };
 
     return (
-        <div className="flex gap-8 my-5">
+        <div className="flex items-center gap-8 my-5">
             <button className="nav-button" disabled={!isCanPrev} onClick={onPrev}>
                 Previous
             </button>
+            <div>{currentPage + 1}</div>
             <button className="nav-button" disabled={!isCanNext} onClick={onNext}>
                 Next
             </button>
